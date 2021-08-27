@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "999269b4-d4fd-4c97-9e7f-816b93ef80f1",
+		"name": "Api-bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Deposito",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://api-bank.localhost/api/evento/deposito",
+					"protocol": "http",
+					"host": [
+						"api-bank",
+						"localhost"
+					],
+					"path": [
+						"api",
+						"evento",
+						"deposito"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retiro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Transferencia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Balance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Reset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
