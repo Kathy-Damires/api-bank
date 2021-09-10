@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 //Route::apiResource('/registro', App\Http\Controllers\RegistroController::class);
 
 Route::post('/evento', [App\Http\Controllers\RegistroController::class, 'evento']);
-Route::get('/balance', [App\Http\Controllers\RegistroController::class, 'balance']);
+Route::get('/balance/{id}', [App\Http\Controllers\RegistroController::class, 'balance']);
 Route::post('/reset', [App\Http\Controllers\RegistroController::class, 'reset']);
+Route::post('/nuevaCuenta', [App\Http\Controllers\RegistroController::class, 'nuevaCuenta']);

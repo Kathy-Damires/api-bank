@@ -17,9 +17,9 @@ class RegistroController extends ApiController
                     $Registro = Registro::find($request->destino);
                     $Registro->balance = $Registro->balance + $request->input('monto');
                     $Registro->save();
-                    return $this->sendResponse($Registro->id, $Registro->balance);
+                    return $this->sendResponse($Registro, "Se ha depositado correcamente");
                 } catch (Exception $e) {
-                    return $this->sendError(404);
+                    return $this->sendError("Error","La cuenta no existe",404);
                 } 
             break;
             
@@ -28,9 +28,9 @@ class RegistroController extends ApiController
                     $Registro = Registro::find($request->origen);
                     $Registro->balance = $Registro->balance - $request->input('monto');
                     $Registro->save();
-                    return $this->sendResponse($Registro->id, $Registro->balance);
+                    return $this->sendResponse($Registro, "Retiro efecivo");
                 } catch (Exception $e) {
-                    return $this->sendError(404);
+                    return $this->sendError("Error", "La cuenta no existe",404);
                 } 
             break; 
 
@@ -38,13 +38,17 @@ class RegistroController extends ApiController
                 try {
                     $RegistroOrigen = Registro::find($request->origen);
                     $RegistroDestino = Registro::find($request->destino);
+                    if ($RegistroOrigen->balance >= $request->input('monto')){
                     $RegistroOrigen->balance = $RegistroOrigen->balance - $request->input('monto');
                     $RegistroDestino->balance = $RegistroDestino->balance + $request->input('monto');
                     $RegistroOrigen->save();
                     $RegistroDestino->save();
-                    return $this->sendResponse($RegistroOrigen->id, $RegistroOrigen->balance, $RegistroDestino->id, $RegistroDestino->balance);
+                    }else{
+                        return $this->sendError("Error", "El balance de la cuenta de origen no es suficiente", 404);
+                    }
+                    return $this->sendResponse($RegistroOrigen, $RegistroDestino, "Transferencia efectiva");
                 } catch (Exception $e) {
-                    return $this->sendError(404);
+                    return $this->sendError("Error", "La cuenta no existe", 404);
                 } 
             break; 
         }
@@ -60,8 +64,24 @@ class RegistroController extends ApiController
         }
     }
 
+    public function nuevaCuenta(Request $request) {
+        $id = $request->input('id');
+        $mail = $request->input('mail');
+        $Registro = Registro::find($id);
+        if($Registro){
+            return $this->sendError("El usuario ya existe");
+        }else{
+        $Registro = new Registro();
+        $Registro->id = $id;
+        $Registro->balance = 0;
+        $Registro->Mail = $mail;
+        $Registro->save();
+        return $this->sendResponse($Registro, "Cuenta creada");
+        }
+    }
+
     public function reset(){
-        $Registro = Registro::Truncate();
+        Registro::Truncate();
         return $this->sendError(404);
     }
 
